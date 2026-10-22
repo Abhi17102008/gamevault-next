@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAMEVAULT — Play Beyond Limits</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg:#08090d; --panel:#11141c; --line:#272c38;
+  --text:#f4f6fb; --muted:#939bab; --lime:#c5ff43;
+  --cyan:#53e6ff; --pink:#ff4f9a;
+}
+* {box-sizing:border-box}
+html {scroll-behavior:smooth}
+body {
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:Inter,Arial,sans-serif;
+  background-image:radial-gradient(ellipse at 80% 0%,#28203a55,transparent 35%),
+  radial-gradient(ellipse at 0% 55%,#12332a33,transparent 35%);
+}
+button,input {font:inherit}
+button {cursor:pointer}
+.shell {max-width:1400px;margin:auto;padding:0 30px}
+header {
+  height:76px;display:flex;align-items:center;
+  justify-content:space-between;gap:20px;
+  border-bottom:1px solid #ffffff13;
+}
+.logo {display:flex;align-items:center;gap:11px;font-weight:900;letter-spacing:2px}
+.logo-icon {
+  display:grid;place-items:center;width:40px;height:40px;
+  background:var(--lime);color:#101010;border-radius:12px;font-size:24px;
+  box-shadow:0 0 25px #c5ff4333;
+}
+.logo em {font-style:normal;color:var(--lime)}
+nav {display:flex;gap:25px}
+nav a {color:#b6bdca;text-decoration:none;font-size:11px;font-weight:800}
+nav a:hover {color:var(--lime)}
+.online {font-size:10px;color:#c5ff43;font-weight:800}
+.hero {
+  position:relative;overflow:hidden;min-height:410px;
+  margin:28px 0 30px;border:1px solid #ffffff19;border-radius:24px;
+  background:linear-gradient(100deg,#10131a 10%,#11131be8 55%,#182b2b99),
+  radial-gradient(circle at 85% 45%,#4b7355,#151928 65%);
+}
+.hero:after {
+  content:"✦";position:absolute;right:7%;top:8%;
+  font-size:260px;color:#c5ff4310;transform:rotate(-15deg);
+}
+.hero-content {position:relative;z-index:1;padding:52px;max-width:730px}
+.eyebrow {color:var(--lime);font-size:10px;letter-spacing:3px;font-weight:900}
+h1 {
+  font-family:"Barlow Condensed",Impact,sans-serif;
+  font-size:clamp(58px,8vw,95px);line-height:.87;
+  margin:20px 0;text-transform:uppercase;
+}
+.outline {color:transparent;-webkit-text-stroke:1px #e8edf7}
+.hero p {color:#aab2c0;max-width:440px;font-size:13px;line-height:1.9}
+.actions {display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.btn {
+  padding:13px 17px;border-radius:9px;border:1px solid #ffffff25;
+  background:#ffffff08;color:white;font-size:11px;font-weight:900;
+}
+.btn.primary {background:var(--lime);color:#111;border-color:var(--lime)}
+.btn:hover {transform:translateY(-2px)}
+.stats {display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.stat {
+  padding:18px;border:1px solid #ffffff12;border-radius:14px;
+  background:linear-gradient(130deg,#161923,#0e1016);
+}
+.stat strong {display:block;font-size:23px}
+.stat small {display:block;color:var(--muted);font-size:9px;margin-top:6px;letter-spacing:1px}
+section.library {margin:45px 0}
+.section-head {
+  display:flex;justify-content:space-between;align-items:end;
+  gap:18px;margin-bottom:20px;
+}
+.kicker {color:var(--lime);font-size:10px;font-weight:900;letter-spacing:3px}
+h2 {font-family:"Barlow Condensed",Impact,sans-serif;font-size:36px;text-transform:uppercase;margin:8px 0}
+.sub {color:var(--muted);font-size:11px}
+.search {
+  padding:12px 14px;border:1px solid var(--line);border-radius:10px;
+  background:#11141b;color:white;outline:none;width:250px;
+}
+.search:focus {border-color:var(--lime)}
+.filters {display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.chip {
+  padding:9px 14px;border-radius:8px;border:1px solid var(--line);
+  background:#11141b;color:#aeb6c4;font-size:11px;font-weight:800;
+}
+.chip.active,.chip:hover {color:var(--lime);border-color:#c5ff4366;background:#c5ff4310}
+.grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.card {
+  background:linear-gradient(145deg,#171b26,#101219);
+  border:1px solid #ffffff13;border-radius:16px;overflow:hidden;
+  transition:.25s;
+}
+.card:hover {transform:translateY(-5px);border-color:#c5ff4366}
+.art {
+  height:165px;display:grid;place-items:center;position:relative;overflow:hidden;
+  background:radial-gradient(circle,#244a3b,#111720 70%);
+}
+.art:before {
+  content:"";position:absolute;width:160px;height:160px;border:1px solid #ffffff20;
+  border-radius:50%;box-shadow:0 0 0 35px #ffffff04,0 0 0 70px #ffffff03;
+}
+.art .emoji {font-size:60px;position:relative;z-index:1;filter:drop-shadow(0 0 20px #ffffff30)}
+.blue {background:radial-gradient(circle,#1c4569,#11151d 70%)}
+.purple {background:radial-gradient(circle,#49235b,#15121c 70%)}
+.red {background:radial-gradient(circle,#642b39,#171219 70%)}
+.gold {background:radial-gradient(circle,#59431d,#171610 70%)}
+.cyan {background:radial-gradient(circle,#14515a,#10191e 70%)}
+.tag {
+  position:absolute;top:12px;left:12px;z-index:2;
+  padding:6px 8px;border-radius:5px;background:#08090ddd;
+  font-size:9px;letter-spacing:1px;font-weight:900;color:var(--lime);
+}
+.tag.soon {color:#abb3c2}
+.fav {
+  position:absolute;right:12px;top:10px;z-index:2;
+  background:#08090ddd;border:1px solid #ffffff30;color:white;
+  border-radius:8px;width:32px;height:32px;font-size:18px;
+}
+.fav.on {color:var(--pink)}
+.info {padding:15px}
+.title-row {display:flex;justify-content:space-between;gap:8px;align-items:center}
+.title {font-size:13px;font-weight:800}
+.type {font-size:9px;color:#a5adbd;border:1px solid #ffffff20;padding:5px;border-radius:5px}
+.info p {font-size:11px;line-height:1.7;color:var(--muted);min-height:38px}
+.bottom {display:flex;justify-content:space-between;align-items:center;gap:8px}
+.players {font-size:10px;color:#9ca6b5}
+.play {
+  background:#c5ff4312;color:var(--lime);border:0;border-radius:7px;
+  padding:10px 12px;font-size:10px;font-weight:900;
+}
+.play:hover {background:var(--lime);color:#111}
+.featured {display:grid;grid-template-columns:1.2fr .8fr;gap:15px;margin:45px 0}
+.feature {
+  position:relative;overflow:hidden;padding:27px;min-height:200px;
+  border:1px solid #ffffff15;border-radius:17px;
+  background:linear-gradient(130deg,#1b2823,#11141b);
+}
+.feature:nth-child(2) {background:linear-gradient(130deg,#251936,#11141b)}
+.feature h3 {font-family:"Barlow Condensed",Impact,sans-serif;font-size:31px;text-transform:uppercase}
+.feature p {color:#a8b0bf;font-size:11px;line-height:1.8;max-width:350px}
+.glyph {position:absolute;right:20px;bottom:-15px;font-size:100px;opacity:.12}
+footer {
+  border-top:1px solid #ffffff15;padding:25px 0 35px;
+  display:flex;justify-content:space-between;gap:20px;
+  font-size:10px;line-height:1.8;color:#818898;
+}
+footer strong {color:white}
+.backdrop {
+  position:fixed;inset:0;z-index:10;display:none;
+  align-items:center;justify-content:center;padding:15px;
+  background:#030407e8;backdrop-filter:blur(10px);
+}
+.backdrop.show {display:flex}
+.modal {
+  width:min(620px,100%);max-height:90vh;overflow:auto;
+  border:1px solid #ffffff22;border-radius:18px;background:#11141c;
+}
+.modal-head {display:flex;justify-content:space-between;align-items:center;padding:17px 20px;border-bottom:1px solid #ffffff15}
+.close {background:#ffffff0b;color:white;border:1px solid #ffffff22;border-radius:8px;width:34px;height:34px;font-size:20px}
+.stage {padding:23px;min-height:270px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px;text-align:center}
+.note {color:var(--muted);font-size:11px;line-height:1.7}
+.score {color:var(--lime);font-size:12px;font-weight:900}
+.controls {display:flex;gap:9px;justify-content:center;flex-wrap:wrap;padding:0 20px 20px}
+.controls button,.stage button {
+  border:1px solid #ffffff20;background:#1a1e29;color:white;
+  border-radius:9px;padding:11px 14px;font-size:12px;font-weight:800;
+}
+.controls button:hover {border-color:var(--lime);color:var(--lime)}
+.big {background:var(--lime)!important;color:#111!important;font-size:20px!important;padding:22px 30px!important}
+.board {display:grid;grid-template-columns:repeat(3,70px);gap:7px}
+.board button {height:70px;font-size:28px;color:var(--lime)}
+.memory {display:grid;grid-template-columns:repeat(4,55px);gap:7px}
+.memory button {height:58px;font-size:22px}
+.memory button.open {border-color:var(--lime);background:#243329}
+#snakeCanvas {width:min(320px,100%);height:auto;background:#070a0e;border:1px solid #28313b}
+.toast {
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  padding:12px 18px;background:var(--lime);color:#111;border-radius:9px;
+  font-size:11px;font-weight:900;display:none;z-index:30;
+}
+.toast.show {display:block}
+@media(max-width:850px) {
+  .shell {padding:0 18px}
+  .grid {grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stats {grid-template-columns:repeat(2,1fr)}
+  nav {gap:13px}
+}
+@media(max-width:580px) {
+  .shell {padding:0 12px}
+  header {height:65px}
+  nav,.online {display:none}
+  .hero-content {padding:25px}
+  .hero {min-height:400px}
+  h1 {font-size:58px}
+  .section-head {align-items:stretch;flex-direction:column}
+  .search {width:100%}
+  .grid {gap:9px}
+  .art {height:115px}
+  .art .emoji {font-size:43px}
+  .info {padding:10px}
+  .title {font-size:11px}
+  .type {display:none}
+  .info p {font-size:10px;min-height:52px}
+  .players {font-size:9px}
+  .play {padding:8px}
+  .featured {grid-template-columns:1fr}
+  footer {flex-direction:column}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+<header>
+  <div class="logo"><span class="logo-icon">✦</span><span>GAME<em>VAULT</em></span></div>
+  <nav>
+    <a href="#library">DISCOVER</a>
+    <a href="#library">GAME LIBRARY</a>
+    <a href="#arcade">ARCADE</a>
+  </nav>
+  <div class="online">● ARCADE ONLINE</div>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="eyebrow">YOUR NEXT OBSESSION STARTS HERE</div>
+    <h1>PLAY BEYOND<br><span class="outline">LIMITS.</span></h1>
+    <p>One vault. Endless possibilities. Discover arcade challenges, sharpen your skills, chase high scores, and find your next favourite game.</p>
+    <div class="actions">
+      <button class="btn primary" onclick="document.querySelector('#library').scrollIntoView({behavior:'smooth'})">▶ EXPLORE GAMES</button>
+      <button class="btn" onclick="document.querySelector('#arcade').scrollIntoView({behavior:'smooth'})">✦ ENTER THE ARCADE</button>
+    </div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stat"><strong id="gameCount">06</strong><small>PLAYABLE GAMES</small></div>
+  <div class="stat"><strong>FREE</strong><small>TO GET STARTED</small></div>
+  <div class="stat"><strong>2D</strong><small>BROWSER ARCADE</small></div>
+  <div class="stat"><strong id="favCount">00</strong><small>YOUR FAVOURITES</small></div>
+</div>
+
+<section class="library" id="library">
+  <div class="section-head">
+    <div><div class="kicker">THE COLLECTION</div><h2>Find your next game</h2><div class="sub">Pick a mood. Launch a game. Beat your best.</div></div>
+    <input class="search" id="search" placeholder="⌕  Search games..." autocomplete="off">
+  </div>
+  <div class="filters" id="filters">
+    <button class="chip active" data-filter="All">All games</button>
+    <button class="chip" data-filter="Arcade">Arcade</button>
+    <button class="chip" data-filter="Puzzle">Puzzle</button>
+    <button class="chip" data-filter="Action">Action</button>
+    <button class="chip" data-filter="Favourites">♥ Favourites</button>
+  </div>
+  <div class="grid" id="gameGrid"></div>
+</section>
+
+<section id="arcade">
+  <div class="kicker">LEVEL UP</div>
+  <h2>The arcade zone</h2>
+  <div class="sub">Small games. Big “one more round” energy.</div>
+  <div class="featured">
+    <div class="feature">
+      <span class="kicker">QUICK CHALLENGE</span>
+      <h3>Test your reflexes.</h3>
+      <p>Wait for the signal, react at the right moment, and try to beat your personal best.</p>
+      <button class="btn primary" onclick="launchGame('reflex')">START CHALLENGE ↗</button>
+      <div class="glyph">ϟ</div>
+    </div>
+    <div class="feature">
+      <span class="kicker">BRAIN MODE</span>
+      <h3>Train your memory.</h3>
+      <p>Match hidden pairs and see how quickly you can clear the board.</p>
+      <button class="btn" onclick="launchGame('memory')">PLAY MEMORY ↗</button>
+      <div class="glyph">◈</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div><strong>✦ GAMEVAULT</strong><br>Built for players. Made for the next round.</div>
+  <div>GAMEVAULT 2.0 · BROWSER ARCADE<br>More games and multiplayer features can be added in future stages.</div>
+</footer>
+</div>
+
+<div class="backdrop" id="modal">
+  <div class="modal">
+    <div class="modal-head"><strong id="modalTitle">Game</strong><button class="close" onclick="closeGame()">×</button></div>
+    <div class="stage" id="stage"></div>
+    <div class="controls" id="controls"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const games = [
+ {id:'ttt',name:'Tic-Tac-Toe',type:'Puzzle',desc:'A timeless mind game. Challenge a friend on the same screen.',emoji:'✕',art:'',label:'LOCAL 2 PLAYER',players:'2 players',play:true},
+ {id:'memory',name:'Memory Match',type:'Puzzle',desc:'Flip cards, remember symbols, and match every pair.',emoji:'◈',art:'purple',label:'BRAIN TRAINER',players:'1 player',play:true},
+ {id:'rps',name:'Rock Paper Scissors',type:'Arcade',desc:'Pick your move and challenge the computer.',emoji:'✊',art:'red',label:'VS BOT',players:'1 player',play:true},
+ {id:'snake',name:'Neon Snake',type:'Arcade',desc:'Collect glowing orbs and avoid your own trail.',emoji:'🐍',art:'',label:'ARCADE CLASSIC',players:'1 player',play:true},
+ {id:'reflex',name:'Reflex Rush',type:'Action',desc:'Wait for green, then react as fast as you can.',emoji:'ϟ',art:'blue',label:'REACTION TEST',players:'1 player',play:true},
+ {id:'clicker',name:'Cosmic Clicker',type:'Arcade',desc:'A ten-second clicking challenge. Chase your best score.',emoji:'✹',art:'gold',label:'SCORE ATTACK',players:'1 player',play:true},
+ {id:'chess',name:'Chess Arena',type:'Puzzle',desc:'A strategic classic planned for a future game update.',emoji:'♞',art:'blue',label:'COMING SOON',players:'Planned',play:false},
+ {id:'kart',name:'Turbo Kart',type:'Action',desc:'A future racing mode for time trials and competition.',emoji:'🏎️',art:'cyan',label:'ROADMAP',players:'Planned',play:false},
+ {id:'duel',name:'Duel Protocol',type:'Action',desc:'A future arcade combat concept.',emoji:'⚔️',art:'red',label:'ROADMAP',players:'Planned',play:false}
+];
+
+let filter='All';
+let favs=JSON.parse(localStorage.getItem('gvFavs')||'[]');
+let scores=JSON.parse(localStorage.getItem('gvScores')||'{}');
+let timers=[];
+const $=s=>document.querySelector(s);
+
+function render() {
+  const q=$('#search').value.toLowerCase().trim();
+  const list=games.filter(g=>
+    (filter==='All'||(filter==='Favourites'?favs.includes(g.id):g.type===filter)) &&
+    (g.name+' '+g.type+' '+g.desc).toLowerCase().includes(q)
+  );
+  $('#gameGrid').innerHTML=list.length?list.map(g=>`
+    <article class="card">
+      <div class="art ${g.art}">
+        <span class="tag ${g.play?'':'soon'}">${g.label}</span>
+        <button class="fav ${favs.includes(g.id)?'on':''}" onclick="toggleFav('${g.id}')">${favs.includes(g.id)?'♥':'♡'}</button>
+        <span class="emoji">${g.emoji}</span>
+      </div>
+      <div class="info">
+        <div class="title-row"><span class="title">${g.name}</span><span class="type">${g.type}</span></div>
+        <p>${g.desc}</p>
+        <div class="bottom">
+          <span class="players">${scores[g.id]!==undefined?'BEST · '+scores[g.id]:g.players}</span>
+          <button class="play" onclick="launchGame('${g.id}')">${g.play?'▶ PLAY':'◷ SOON'}</button>
+        </div>
+      </div>
+    </article>`).join(''):'<div class="note">No games found. Try another search.</div>';
+  $('#gameCount').textContent=String(games.filter(g=>g.play).length).padStart(2,'0');
+  $('#favCount').textContent=String(favs.length).padStart(2,'0');
+}
+$('#filters').addEventListener('click',e=>{
+  const b=e.target.closest('[data-filter]');if(!b)return;
+  filter=b.dataset.filter;
+  document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active',c===b));
+  render();
+});
+$('#search').addEventListener('input',render);
+
+function toggleFav(id) {
+  favs=favs.includes(id)?favs.filter(x=>x!==id):[...favs,id];
+  localStorage.setItem('gvFavs',JSON.stringify(favs));render();
+}
+function toast(msg) {
+  const t=$('#toast');t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),1600);
+}
+function saveScore(id,n,lowerIsBetter=false) {
+  if(scores[id]===undefined||(lowerIsBetter?n<scores[id]:n>scores[id])) {
+    scores[id]=n;localStorage.setItem('gvScores',JSON.stringify(scores));render();
+  }
+}
+function clearTimers(){timers.forEach(t=>{clearTimeout(t);clearInterval(t)});timers=[]}
+function openGame(title) {
+  clearTimers();$('#modalTitle').textContent=title;
+  $('#stage').innerHTML='';$('#controls').innerHTML='';
+  $('#modal').classList.add('show');document.body.style.overflow='hidden';
+}
+function closeGame() {
+  clearTimers();$('#modal').classList.remove('show');
+  document.body.style.overflow='';$('#stage').innerHTML='';
+}
+$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')closeGame()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeGame()});
+
+function launchGame(id) {
+  const g=games.find(x=>x.id===id);if(!g)return;
+  if(!g.play) {
+    openGame(g.name);
+    $('#stage').innerHTML=`<div style="font-size:50px">🛠️</div><h3>On the roadmap</h3><p class="note">${g.desc}<br><br>This game is not playable yet.</p>`;
+    return;
+  }
+  ({ttt:gameTTT,memory:gameMemory,rps:gameRPS,snake:gameSnake,reflex:gameReflex,clicker:gameClicker})[id]();
+}
+
+function gameTTT() {
+  openGame('Tic-Tac-Toe · Local 2 Player');
+  let b=Array(9).fill(''),turn='X',done=false;
+  function draw(msg=`Player ${turn}'s turn`) {
+    $('#stage').innerHTML=`<div class="score">${msg}</div><div class="board">${b.map((v,i)=>`<button ${v||done?'disabled':''} onclick="tttMove(${i})">${v}</button>`).join('')}</div><p class="note">Two players on one device.</p>`;
+    $('#controls').innerHTML='<button onclick="launchGame(\'ttt\')">↻ RESTART</button>';
+  }
+  window.tttMove=i=>{
+    if(b[i]||done)return;b[i]=turn;
+    const wins=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+    if(wins.some(a=>a.every(j=>b[j]===turn))) {
+      done=true;draw(`Player ${turn} wins!`);
+      if(turn==='X')saveScore('ttt',(scores.ttt||0)+1);
+    } else if(b.every(Boolean)){done=true;draw('Draw game!')}
+    else {turn=turn==='X'?'O':'X';draw()}
+  };
+  draw();
+}
+
+function gameMemory() {
+  openGame('Memory Match');
+  const icons=['✦','☄','♛','♞','✿','☯','⚡','♦'];
+  let deck=[...icons,...icons].sort(()=>Math.random()-.5),open=[],matched=[],moves=0,locked=false;
+  function draw() {
+    $('#stage').innerHTML=`<div class="score">MOVES: ${moves} · PAIRS: ${matched.length/2}/8</div><div class="memory">${deck.map((v,i)=>`<button class="${open.includes(i)||matched.includes(i)?'open':''}" onclick="memoryFlip(${i})">${open.includes(i)||matched.includes(i)?v:'?'}</button>`).join('')}</div><p class="note">Find all eight pairs.</p>`;
+    $('#controls').innerHTML='<button onclick="launchGame(\'memory\')">↻ RESTART</button>';
+  }
+  window.memoryFlip=i=>{
+    if(locked||open.includes(i)||matched.includes(i))return;
+    open.push(i);
+    if(open.length===2) {
+      moves++;
+      if(deck[open[0]]===deck[open[1]]) {
+        matched.push(...open);open=[];draw();
+        if(matched.length===16) {
+          saveScore('memory',scores.memory===undefined?moves:Math.min(scores.memory,moves),true);
+          $('#stage').insertAdjacentHTML('beforeend','<div class="score">BOARD CLEARED!</div>');
+        }
+      } else {
+        locked=true;draw();
+        const t=setTimeout(()=>{open=[];locked=false;draw()},700);timers.push(t);
+      }
+    } else draw();
+  };
+  draw();
+}
+
+function gameRPS() {
+  openGame('Rock Paper Scissors');let you=0,bot=0;
+  function draw(msg='Choose your move') {
+    $('#stage').innerHTML=`<div style="font-size:38px">✊　✋　✌️</div><div class="score">YOU ${you} — ${bot} BOT</div><p class="note">${msg}</p>`;
+    $('#controls').innerHTML=['Rock','Paper','Scissors'].map(v=>`<button onclick="rpsPick('${v}')">${v==='Rock'?'✊':v==='Paper'?'✋':'✌️'} ${v}</button>`).join('')+'<button onclick="launchGame(\'rps\')">RESET</button>';
+  }
+  window.rpsPick=v=>{
+    const other=['Rock','Paper','Scissors'][Math.floor(Math.random()*3)];
+    let msg=`You: ${v} · Bot: ${other} — `;
+    if(v===other)msg+='Draw!';
+    else if((v==='Rock'&&other==='Scissors')||(v==='Paper'&&other==='Rock')||(v==='Scissors'&&other==='Paper')){you++;msg+='You win!';saveScore('rps',you)}
+    else {bot++;msg+='Bot wins!'}
+    draw(msg);
+  };
+  draw();
+}
+
+function gameReflex() {
+  openGame('Reflex Rush');
+  let state='ready',start=0,best=scores.reflex;
+  function draw(msg='Press start and wait for green.') {
+    $('#stage').innerHTML=`<div class="score">BEST: ${best===undefined?'—':best+' ms'}</div><p class="note">${msg}</p><button class="big" style="background:${state==='go'?'#c5ff43':state==='wait'?'#ff4f70':'#242a36'};color:${state==='go'?'#111':'white'}" onclick="reflexClick()">${state==='go'?'CLICK NOW!':state==='wait'?'WAIT...':'START ROUND'}</button>`;
+  }
+  window.reflexClick=()=>{
+    if(state==='ready') {
+      state='wait';draw('Wait for the green signal...');
+      timers.push(setTimeout(()=>{state='go';start=performance.now();draw('NOW! CLICK!')},1200+Math.random()*2500));
+    } else if(state==='wait') {
+      clearTimers();state='ready';draw('Too early! Try again.');
+    } else {
+      const ms=Math.round(performance.now()-start);state='ready';
+      saveScore('reflex',ms,true);best=scores.reflex;draw(`Your reaction: ${ms} ms`);
+    }
+  };
+  draw();
+}
+
+function gameClicker() {
+  openGame('Cosmic Clicker');let points=0,left=10,playing=false;
+  function draw(msg='Start the round and tap the target.') {
+    $('#stage').innerHTML=`<div class="score">SCORE: ${points} · TIME: ${left}s · BEST: ${scores.clicker||0}</div><p class="note">${msg}</p><button class="big" ${playing?'':'disabled'} onclick="clickPoint()">✹</button>`;
+    $('#controls').innerHTML='<button onclick="startClicker()">▶ START / RESTART</button>';
+  }
+  window.clickPoint=()=>{if(playing){points++;draw('Keep going!')}};
+  window.startClicker=()=>{
+    clearTimers();points=0;left=10;playing=true;draw('GO!');
+    const t=setInterval(()=>{
+      left--;
+      if(left<=0) {
+        clearInterval(t);playing=false;saveScore('clicker',points);
+        draw(`Time! You scored ${points} points.`);
+      } else draw('Keep going!');
+    },1000);timers.push(t);
+  };
+  draw();
+}
+
+function gameSnake() {
+  openGame('Neon Snake');
+  $('#stage').innerHTML='<div class="score" id="snakeScore">SCORE: 0 · ARROW KEYS / WASD</div><canvas id="snakeCanvas" width="320" height="320"></canvas><p class="note">Use arrow keys or WASD. Direction buttons also work.</p>';
+  $('#controls').innerHTML='<button onclick="snakeDir(0,-1)">▲</button><button onclick="snakeDir(-1,0)">◀</button><button onclick="snakeDir(0,1)">▼</button><button onclick="snakeDir(1,0)">▶</button><button onclick="launchGame(\'snake\')">↻ RESTART</button>';
+  const c=$('#snakeCanvas'),ctx=c.getContext('2d'),cell=16,n=20;
+  let body=[{x:8,y:10},{x:7,y:10},{x:6,y:10}],dir={x:1,y:0},next={x:1,y:0},food={x:14,y:10},score=0,alive=true;
+  window.snakeDir=(x,y)=>{if(x!==-dir.x||y!==-dir.y)next={x,y}};
+  function key(e) {
+    const k=e.key.toLowerCase();
+    const m={arrowup:[0,-1],w:[0,-1],arrowdown:[0,1],s:[0,1],arrowleft:[-1,0],a:[-1,0],arrowright:[1,0],d:[1,0]};
+    if(m[k]){e.preventDefault();snakeDir(...m[k])}
+  }
+  document.addEventListener('keydown',key);
+  function frame() {
+    if(!alive)return;
+    dir=next;
+    const h={x:body[0].x+dir.x,y:body[0].y+dir.y};
+    if(h.x<0||h.y<0||h.x>=n||h.y>=n||body.some((p,i)=>i>0&&p.x===h.x&&p.y===h.y)) {
+      alive=false;document.removeEventListener('keydown',key);saveScore('snake',score);
+      $('#snakeScore').textContent=`GAME OVER · SCORE: ${score}`;return;
+    }
+    body.unshift(h);
+    if(h.x===food.x&&h.y===food.y) {
+      score++;food={x:Math.floor(Math.random()*n),y:Math.floor(Math.random()*n)};
+      $('#snakeScore').textContent=`SCORE: ${score}`;
+    } else body.pop();
+    ctx.fillStyle='#070a0e';ctx.fillRect(0,0,320,320);
+    ctx.strokeStyle='#17221e';
+    for(let i=0;i<n;i++){ctx.beginPath();ctx.moveTo(i*cell,0);ctx.lineTo(i*cell,320);ctx.moveTo(0,i*cell);ctx.lineTo(320,i*cell);ctx.stroke()}
+    ctx.fillStyle='#ff4f9a';ctx.fillRect(food.x*cell+3,food.y*cell+3,cell-6,cell-6);
+    body.forEach((p,i)=>{ctx.fillStyle=i===0?'#d8ff8b':'#71d99a';ctx.fillRect(p.x*cell+1,p.y*cell+1,cell-2,cell-2)});
+    timers.push(setTimeout(frame,110));
+  }
+  frame();
+}
+
+render();
+</script>
+</body>
+</html>
